@@ -2,28 +2,52 @@ import { Component, type OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { TypewriterDirective } from "../../directives/typewriter.directive"
 import { AudioService } from "../../services/audio.service"
-import { trigger, transition, style, animate } from "@angular/animations"
 
 @Component({
   selector: "app-final-letter",
   standalone: true,
   imports: [CommonModule, TypewriterDirective],
   template: `
-    <div class="final-letter-container" [@fadeIn]>
+    <div class="final-letter-container">
       <div class="final-letter-content">
         <h2 class="final-letter-title">Carta Final</h2>
         <div class="final-letter-text" appTypewriter [text]="finalLetterText" [onComplete]="onTypingComplete.bind(this)"></div>
       </div>
       
+      <!-- Efectos de celebración -->
       <div class="celebration" *ngIf="showCelebration">
-        <div class="hearts"></div>
-        <div class="fireworks"></div>
-        <div class="confetti"></div>
+        <!-- Corazones -->
+        <div class="hearts-container">
+          <div class="heart" *ngFor="let i of [].constructor(30)"></div>
+        </div>
+        
+        <!-- Fuegos artificiales -->
+        <div class="fireworks-container">
+          <div class="firework" *ngFor="let i of [].constructor(10)"></div>
+        </div>
+        
+        <!-- Confeti -->
+        <div class="confetti-container">
+          <div class="confetti" *ngFor="let i of [].constructor(100)"></div>
+        </div>
       </div>
       
       <div class="thank-you" *ngIf="showThankYou">
         <h2>Gracias por estar en mi vida</h2>
         <p>Te amo, Nat ❤️</p>
+        
+        <button class="close-button" (click)="closeApp()">
+          Cerrar
+        </button>
+      </div>
+      
+      <!-- Popup de cierre -->
+      <div class="close-popup" *ngIf="showClosePopup">
+        <div class="popup-content">
+          <h3>Ahora ya sabes qué hacer</h3>
+          <p>¡Búscame y dame un abrazo!</p>
+          <button class="final-button" (click)="finalClose()">Entendido</button>
+        </div>
       </div>
     </div>
   `,
@@ -38,6 +62,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
       padding: 20px;
       position: relative;
       overflow: hidden;
+      animation: fadeIn 1s ease-in;
     }
     
     .final-letter-content {
@@ -46,7 +71,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
       border: 1px solid #333;
       box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.1);
       max-width: 800px;
-      width: 100%;
+      width: 95%;
       margin-bottom: 30px;
       z-index: 2;
     }
@@ -81,6 +106,79 @@ import { trigger, transition, style, animate } from "@angular/animations"
     
     .thank-you p {
       font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .close-button {
+      background-color: #f8f4e3;
+      border: 2px solid #333;
+      color: #333;
+      padding: 12px 30px;
+      font-family: 'Special Elite', cursive;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 3px 3px 0 #333;
+      margin-top: 20px;
+    }
+    
+    .close-button:hover {
+      background-color: #e8e4d3;
+      box-shadow: 1px 1px 0 #333;
+      transform: translate(2px, 2px);
+    }
+    
+    /* Popup de cierre */
+    .close-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    .popup-content {
+      background-color: #f8f4e3;
+      padding: 30px;
+      border: 2px solid #333;
+      box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 90%;
+      width: 400px;
+    }
+    
+    .popup-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    
+    .popup-content p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    
+    .final-button {
+      background-color: #2a9d8f;
+      border: 2px solid #333;
+      color: white;
+      padding: 10px 25px;
+      font-family: 'Special Elite', cursive;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 3px 3px 0 #333;
+    }
+    
+    .final-button:hover {
+      background-color: #218a7e;
+      box-shadow: 1px 1px 0 #333;
+      transform: translate(2px, 2px);
     }
     
     /* Celebration animations */
@@ -91,66 +189,181 @@ import { trigger, transition, style, animate } from "@angular/animations"
       width: 100%;
       height: 100%;
       pointer-events: none;
-    }
-    
-    .hearts {
-      position: absolute;
-      width: 100%;
-      height: 100%;
       z-index: 1;
     }
     
-    .hearts::before {
-      content: '❤️';
+    /* Corazones */
+    .hearts-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .heart {
       position: absolute;
       font-size: 20px;
-      animation: hearts 3s infinite;
+      color: red;
+      width: 30px;
+      height: 30px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff0000'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0;
+      animation: floatHeart 4s ease-in infinite;
     }
     
-    .hearts::after {
-      content: '❤️';
-      position: absolute;
-      left: 10%;
-      font-size: 25px;
-      animation: hearts 2.5s infinite;
-      animation-delay: 0.5s;
-    }
-    
-    .fireworks {
+    /* Fuegos artificiales */
+    .fireworks-container {
       position: absolute;
       width: 100%;
       height: 100%;
-      z-index: 1;
+    }
+    
+    .firework {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      opacity: 0;
+      transform-origin: center;
+      animation: firework 2s ease-out infinite;
+    }
+    
+    /* Confeti */
+    .confetti-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
     }
     
     .confetti {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-    
-    @keyframes hearts {
-      0% {
-        top: 100%;
-        opacity: 1;
-        transform: translateX(calc(random(100) * 1%)) scale(1);
-      }
-      100% {
-        top: -10%;
-        opacity: 0;
-        transform: translateX(calc(random(100) * 1%)) scale(0.5);
-      }
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+      animation: confettiFall 4s linear infinite;
     }
     
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    
+    @keyframes floatHeart {
+      0% {
+        bottom: -10%;
+        opacity: 0;
+        transform: translateX(0) scale(0.7);
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        bottom: 110%;
+        opacity: 0;
+        transform: translateX(calc(var(--random-x, 0) * 1px)) scale(1);
+      }
+    }
+    
+    @keyframes firework {
+      0% {
+        transform: translate(var(--x, 50%), var(--y, 50%));
+        width: 5px;
+        height: 5px;
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x, 50%), var(--y, 50%));
+        width: 0;
+        height: 0;
+        opacity: 0;
+        box-shadow: 
+          0 0 60px 60px #f44336, 
+          0 0 100px 100px #2196f3, 
+          0 0 140px 140px #ffeb3b;
+      }
+    }
+    
+    @keyframes confettiFall {
+      0% {
+        top: -10px;
+        opacity: 1;
+        transform: translateX(0) rotate(0deg);
+      }
+      100% {
+        top: 100%;
+        opacity: 0.3;
+        transform: translateX(calc(var(--random-x, 0) * 1px)) rotate(calc(var(--random-rotate, 0) * 1deg));
+      }
+    }
+    
+    /* Media queries para responsividad */
+    @media (max-width: 768px) {
+      .final-letter-content {
+        padding: 20px;
+        width: 95%;
+      }
+      
+      .final-letter-title {
+        font-size: 1.7rem;
+      }
+      
+      .final-letter-text {
+        font-size: 1.1rem;
+      }
+      
+      .thank-you h2 {
+        font-size: 1.7rem;
+      }
+      
+      .thank-you p {
+        font-size: 1.3rem;
+      }
+      
+      .close-button {
+        padding: 10px 25px;
+        font-size: 1.1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .final-letter-content {
+        padding: 15px;
+      }
+      
+      .final-letter-title {
+        font-size: 1.5rem;
+      }
+      
+      .final-letter-text {
+        font-size: 1rem;
+      }
+      
+      .thank-you h2 {
+        font-size: 1.5rem;
+      }
+      
+      .thank-you p {
+        font-size: 1.2rem;
+      }
+      
+      .close-button {
+        padding: 8px 20px;
+        font-size: 1rem;
+      }
+      
+      .popup-content h3 {
+        font-size: 1.5rem;
+      }
+      
+      .popup-content p {
+        font-size: 1.1rem;
+      }
+    }
   `,
-  ],
-  animations: [
-    trigger("fadeIn", [transition(":enter", [style({ opacity: 0 }), animate("1s ease-in", style({ opacity: 1 }))])]),
   ],
 })
 export class FinalLetterComponent implements OnInit {
@@ -158,14 +371,15 @@ export class FinalLetterComponent implements OnInit {
 
   showCelebration = false
   showThankYou = false
+  showClosePopup = false
 
   constructor(private audioService: AudioService) {}
 
   ngOnInit() {
-    // Crear múltiples corazones
-    this.createHearts()
-    // Crear confeti
-    this.createConfetti()
+    // Iniciar efectos de celebración después de un breve retraso
+    setTimeout(() => {
+      this.setupCelebrationEffects()
+    }, 500)
   }
 
   onTypingComplete() {
@@ -177,60 +391,96 @@ export class FinalLetterComponent implements OnInit {
     }, 2000)
   }
 
-  createHearts() {
-    const heartsContainer = document.querySelector(".hearts")
-    if (!heartsContainer) return
+  setupCelebrationEffects() {
+    // Configurar corazones
+    this.setupHearts()
 
-    for (let i = 0; i < 20; i++) {
-      const heart = document.createElement("div")
-      heart.innerHTML = "❤️"
-      heart.style.position = "absolute"
-      heart.style.left = `${Math.random() * 100}%`
-      heart.style.top = "100%"
-      heart.style.fontSize = `${Math.random() * 15 + 15}px`
-      heart.style.animation = `hearts ${Math.random() * 3 + 2}s infinite`
-      heart.style.animationDelay = `${Math.random() * 5}s`
-      heartsContainer.appendChild(heart)
-    }
+    // Configurar fuegos artificiales
+    this.setupFireworks()
+
+    // Configurar confeti
+    this.setupConfetti()
   }
 
-  createConfetti() {
-    const confettiContainer = document.querySelector(".confetti")
-    if (!confettiContainer) return
+  setupHearts() {
+    const hearts = document.querySelectorAll(".heart")
+    hearts.forEach((heart: Element) => {
+      const div = heart as HTMLDivElement
+      const randomX = Math.random() * 100
+      const randomDelay = Math.random() * 5
+      const randomDuration = Math.random() * 2 + 3
 
-    const colors = ["#e76f51", "#f4a261", "#e9c46a", "#2a9d8f", "#264653"]
+      div.style.left = `${randomX}%`
+      div.style.setProperty("--random-x", `${Math.random() * 50 - 25}`)
+      div.style.animationDelay = `${randomDelay}s`
+      div.style.animationDuration = `${randomDuration}s`
+    })
+  }
 
-    for (let i = 0; i < 100; i++) {
-      const confetti = document.createElement("div")
-      confetti.style.position = "absolute"
-      confetti.style.left = `${Math.random() * 100}%`
-      confetti.style.width = `${Math.random() * 10 + 5}px`
-      confetti.style.height = `${Math.random() * 10 + 5}px`
-      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
-      confetti.style.transform = `rotate(${Math.random() * 360}deg)`
-      confetti.style.top = "-10px"
-      confetti.style.opacity = "1"
-      confetti.style.animation = `confetti ${Math.random() * 3 + 2}s linear infinite`
-      confetti.style.animationDelay = `${Math.random() * 5}s`
-      confettiContainer.appendChild(confetti)
-    }
+  setupFireworks() {
+    const fireworks = document.querySelectorAll(".firework")
+    const colors = ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"]
 
-    // Añadir keyframes para la animación de confeti
-    const style = document.createElement("style")
-    style.innerHTML = `
-      @keyframes confetti {
-        0% {
-          top: -10px;
-          opacity: 1;
-          transform: translateX(0) rotate(0deg);
-        }
-        100% {
-          top: 100%;
-          opacity: 0.3;
-          transform: translateX(calc(${Math.random() * 100 - 50}px)) rotate(${Math.random() * 360}deg);
-        }
-      }
-    `
-    document.head.appendChild(style)
+    fireworks.forEach((firework: Element) => {
+      const div = firework as HTMLDivElement
+      const x = Math.random() * 100
+      const y = Math.random() * 100
+      const color = colors[Math.floor(Math.random() * colors.length)]
+      const delay = Math.random() * 5
+
+      div.style.backgroundColor = color
+      div.style.setProperty("--x", `${x}%`)
+      div.style.setProperty("--y", `${y}%`)
+      div.style.animationDelay = `${delay}s`
+    })
+  }
+
+  setupConfetti() {
+    const confetti = document.querySelectorAll(".confetti")
+    const colors = [
+      "#e76f51",
+      "#f4a261",
+      "#e9c46a",
+      "#2a9d8f",
+      "#264653",
+      "#ff0000",
+      "#ff00ff",
+      "#ffff00",
+      "#00ff00",
+      "#00ffff",
+    ]
+
+    confetti.forEach((confettiPiece: Element) => {
+      const div = confettiPiece as HTMLDivElement
+      const color = colors[Math.floor(Math.random() * colors.length)]
+      const size = Math.random() * 10 + 5
+      const left = Math.random() * 100
+      const delay = Math.random() * 5
+      const duration = Math.random() * 2 + 3
+      const shape = Math.random() > 0.5 ? "50%" : "0%"
+
+      div.style.backgroundColor = color
+      div.style.width = `${size}px`
+      div.style.height = `${size}px`
+      div.style.left = `${left}%`
+      div.style.borderRadius = shape
+      div.style.setProperty("--random-x", `${Math.random() * 200 - 100}`)
+      div.style.setProperty("--random-rotate", `${Math.random() * 360}`)
+      div.style.animationDelay = `${delay}s`
+      div.style.animationDuration = `${duration}s`
+    })
+  }
+
+  closeApp() {
+    this.showClosePopup = true
+  }
+
+  finalClose() {
+    // Cerrar la aplicación
+    window.close()
+
+    // Fallback si window.close() no funciona
+    document.body.innerHTML =
+      '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial; font-size: 24px; background-color: #f8f4e3; color: #333; text-align: center; padding: 20px;">Ahora ya sabes qué hacer.<br>¡Búscame y dame un abrazo!</div>'
   }
 }

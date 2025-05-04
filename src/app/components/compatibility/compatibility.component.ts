@@ -2,7 +2,6 @@ import { Component, type OnInit } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { Chart, registerables } from "chart.js"
 import { StateService } from "../../services/state.service"
-import { trigger, transition, style, animate } from "@angular/animations"
 
 Chart.register(...registerables)
 
@@ -11,7 +10,7 @@ Chart.register(...registerables)
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="compatibility-container" [@fadeIn]>
+    <div class="compatibility-container">
       <h2 class="compatibility-title">Nuestra Compatibilidad</h2>
       
       <div class="charts-container">
@@ -28,60 +27,62 @@ Chart.register(...registerables)
       
       <div class="compatibility-table">
         <h3>Lo Que Tenemos en Común</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Categoría</th>
-              <th>Fran</th>
-              <th>Nat</th>
-              <th>Compatibilidad</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Bebidas</td>
-              <td>Café</td>
-              <td>Café</td>
-              <td>100%</td>
-            </tr>
-            <tr>
-              <td>Deportes</td>
-              <td>Básquet</td>
-              <td>Básquet</td>
-              <td>100%</td>
-            </tr>
-            <tr>
-              <td>Videojuegos</td>
-              <td>Roblox, Minecraft</td>
-              <td>Roblox, Minecraft</td>
-              <td>100%</td>
-            </tr>
-            <tr>
-              <td>Música</td>
-              <td>Rock, Trap, Reggaetón</td>
-              <td>Rock, Trap, Reggaetón</td>
-              <td>89%</td>
-            </tr>
-            <tr>
-              <td>Pasatiempos</td>
-              <td>Leer, Música, Salir</td>
-              <td>Leer, Música, Salir</td>
-              <td>100%</td>
-            </tr>
-            <tr>
-              <td>Películas</td>
-              <td>Marvel</td>
-              <td>Marvel</td>
-              <td>100%</td>
-            </tr>
-            <tr>
-              <td>Signo Zodiacal</td>
-              <td>Acuario</td>
-              <td>Capricornio</td>
-              <td>85%</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Fran</th>
+                <th>Nat</th>
+                <th>Compatibilidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bebidas</td>
+                <td>Café</td>
+                <td>Café</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>Deportes</td>
+                <td>Básquet</td>
+                <td>Básquet</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>Videojuegos</td>
+                <td>Roblox, Minecraft</td>
+                <td>Roblox, Minecraft</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>Música</td>
+                <td>Rock, Trap, Reggaetón</td>
+                <td>Rock, Trap, Reggaetón</td>
+                <td>89%</td>
+              </tr>
+              <tr>
+                <td>Pasatiempos</td>
+                <td>Leer, Música, Salir</td>
+                <td>Leer, Música, Salir</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>Películas</td>
+                <td>Marvel</td>
+                <td>Marvel</td>
+                <td>100%</td>
+              </tr>
+              <tr>
+                <td>Signo Zodiacal</td>
+                <td>Acuario</td>
+                <td>Capricornio</td>
+                <td>85%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       
       <div class="zodiac-compatibility">
@@ -115,12 +116,14 @@ Chart.register(...registerables)
       align-items: center;
       padding: 20px;
       max-width: 900px;
+      width: 95%;
       margin: 0 auto;
       background-color: rgba(255, 255, 255, 0.7);
       border: 1px solid #333;
       box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.1);
       margin-top: 20px;
       margin-bottom: 20px;
+      animation: fadeIn 1s ease-in;
     }
     
     .compatibility-title {
@@ -139,9 +142,9 @@ Chart.register(...registerables)
     }
     
     .chart-wrapper {
-      width: 45%;
-      min-width: 300px;
-      margin-bottom: 20px;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 30px;
     }
     
     .chart-wrapper h3 {
@@ -152,6 +155,7 @@ Chart.register(...registerables)
     .compatibility-table {
       width: 100%;
       margin-bottom: 30px;
+      overflow-x: auto;
     }
     
     .compatibility-table h3 {
@@ -159,10 +163,17 @@ Chart.register(...registerables)
       margin-bottom: 15px;
     }
     
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+    }
+    
     table {
       width: 100%;
       border-collapse: collapse;
       font-family: 'Special Elite', cursive;
+      min-width: 600px;
     }
     
     th, td {
@@ -190,6 +201,7 @@ Chart.register(...registerables)
     .zodiac-compatibility h3 {
       text-align: center;
       margin-bottom: 15px;
+      font-size: 1.3rem;
     }
     
     .zodiac-compatibility p {
@@ -216,10 +228,68 @@ Chart.register(...registerables)
       box-shadow: 1px 1px 0 #333;
       transform: translate(2px, 2px);
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Media queries para responsividad */
+    @media (max-width: 768px) {
+      .compatibility-container {
+        padding: 15px;
+        width: 98%;
+      }
+      
+      .compatibility-title {
+        font-size: 1.7rem;
+      }
+      
+      .chart-wrapper {
+        width: 100%;
+      }
+      
+      .zodiac-compatibility h3 {
+        font-size: 1.2rem;
+      }
+      
+      .zodiac-compatibility p {
+        font-size: 0.95rem;
+      }
+      
+      .vintage-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .compatibility-container {
+        padding: 10px;
+      }
+      
+      .compatibility-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+      
+      .chart-wrapper h3 {
+        font-size: 1.1rem;
+      }
+      
+      .zodiac-compatibility {
+        padding: 10px;
+      }
+      
+      .zodiac-compatibility h3 {
+        font-size: 1.1rem;
+      }
+      
+      .zodiac-compatibility p {
+        font-size: 0.9rem;
+      }
+    }
   `,
-  ],
-  animations: [
-    trigger("fadeIn", [transition(":enter", [style({ opacity: 0 }), animate("1s ease-in", style({ opacity: 1 }))])]),
   ],
 })
 export class CompatibilityComponent implements OnInit {
@@ -251,9 +321,16 @@ export class CompatibilityComponent implements OnInit {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: true,
         plugins: {
           legend: {
             position: "bottom",
+            labels: {
+              font: {
+                family: "'Special Elite', cursive",
+                size: 12,
+              },
+            },
           },
           tooltip: {
             callbacks: {
@@ -285,12 +362,25 @@ export class CompatibilityComponent implements OnInit {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: true,
         scales: {
           y: {
             beginAtZero: true,
             max: 100,
             ticks: {
               callback: (value) => value + "%",
+              font: {
+                family: "'Special Elite', cursive",
+                size: 11,
+              },
+            },
+          },
+          x: {
+            ticks: {
+              font: {
+                family: "'Special Elite', cursive",
+                size: 11,
+              },
             },
           },
         },

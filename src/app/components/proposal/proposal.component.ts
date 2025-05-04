@@ -2,14 +2,14 @@ import { Component } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { TypewriterDirective } from "../../directives/typewriter.directive"
 import { StateService } from "../../services/state.service"
-import { trigger, transition, style, animate } from "@angular/animations"
+import { AudioService } from "../../services/audio.service"
 
 @Component({
   selector: "app-proposal",
   standalone: true,
   imports: [CommonModule, TypewriterDirective],
   template: `
-    <div class="proposal-container" [@fadeIn]>
+    <div class="proposal-container">
       <div class="proposal-content">
         <div class="proposal-text" appTypewriter [text]="proposalText" [onComplete]="onTypingComplete.bind(this)"></div>
         
@@ -23,7 +23,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
         </div>
       </div>
       
-      <div class="windows-popup" *ngIf="showPopup" [@popupAnimation]>
+      <div class="windows-popup" *ngIf="showPopup">
         <div class="popup-header">
           <div class="popup-title">Confirmación</div>
           <button class="close-button" (click)="closePopup()">✕</button>
@@ -38,7 +38,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
         </div>
       </div>
       
-      <div class="countdown-popup" *ngIf="showCountdown" [@popupAnimation]>
+      <div class="countdown-popup" *ngIf="showCountdown">
         <div class="popup-header">
           <div class="popup-title">Notificación</div>
         </div>
@@ -50,6 +50,11 @@ import { trigger, transition, style, animate } from "@angular/animations"
             La aplicación se cerrará en {{countdown}} segundos.
           </div>
         </div>
+      </div>
+      
+      <!-- Confeti para la celebración -->
+      <div class="confetti-container" *ngIf="showConfetti">
+        <div class="confetti" *ngFor="let i of [].constructor(100)"></div>
       </div>
     </div>
   `,
@@ -63,6 +68,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
       min-height: 80vh;
       padding: 20px;
       position: relative;
+      animation: fadeIn 1s ease-in;
     }
     
     .proposal-content {
@@ -71,7 +77,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
       border: 1px solid #333;
       box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.1);
       max-width: 800px;
-      width: 100%;
+      width: 95%;
       margin-bottom: 30px;
     }
     
@@ -105,6 +111,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
       display: flex;
       justify-content: center;
       gap: 30px;
+      flex-wrap: wrap;
     }
     
     .yes-button, .no-button {
@@ -114,6 +121,7 @@ import { trigger, transition, style, animate } from "@angular/animations"
       border: 2px solid #333;
       cursor: pointer;
       transition: all 0.3s;
+      margin-bottom: 10px;
     }
     
     .yes-button {
@@ -146,11 +154,13 @@ import { trigger, transition, style, animate } from "@angular/animations"
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 400px;
+      width: 90%;
+      max-width: 400px;
       background-color: #c0c0c0;
       border: 2px outset #ffffff;
       box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
       z-index: 1000;
+      animation: popupFadeIn 0.3s ease-out;
     }
     
     .popup-header {
@@ -194,13 +204,14 @@ import { trigger, transition, style, animate } from "@angular/animations"
       padding: 10px;
       background-color: #c0c0c0;
       border-top: 1px solid #a0a0a0;
+      flex-wrap: wrap;
     }
     
     .popup-button {
       background-color: #c0c0c0;
       border: 2px outset #ffffff;
       padding: 5px 10px;
-      margin: 0 5px;
+      margin: 5px;
       font-family: 'Arial', sans-serif;
       font-size: 12px;
       cursor: pointer;
@@ -209,17 +220,83 @@ import { trigger, transition, style, animate } from "@angular/animations"
     .popup-button:active {
       border: 2px inset #ffffff;
     }
+    
+    /* Confeti */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      top: -10px;
+      will-change: transform;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popupFadeIn {
+      from { 
+        opacity: 0; 
+        transform: translate(-50%, -60%);
+      }
+      to { 
+        opacity: 1; 
+        transform: translate(-50%, -50%);
+      }
+    }
+    
+    /* Media queries para responsividad */
+    @media (max-width: 768px) {
+      .proposal-content {
+        padding: 20px;
+      }
+      
+      .question h2 {
+        font-size: 1.7rem;
+      }
+      
+      .yes-button, .no-button {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .proposal-content {
+        padding: 15px;
+      }
+      
+      .proposal-text {
+        font-size: 1.1rem;
+      }
+      
+      .question h2 {
+        font-size: 1.5rem;
+      }
+      
+      .buttons {
+        gap: 15px;
+      }
+      
+      .yes-button, .no-button {
+        padding: 10px 25px;
+        font-size: 1rem;
+      }
+    }
   `,
-  ],
-  animations: [
-    trigger("fadeIn", [transition(":enter", [style({ opacity: 0 }), animate("1s ease-in", style({ opacity: 1 }))])]),
-    trigger("popupAnimation", [
-      transition(":enter", [
-        style({ opacity: 0, transform: "translate(-50%, -60%)" }),
-        animate("300ms ease-out", style({ opacity: 1, transform: "translate(-50%, -50%)" })),
-      ]),
-      transition(":leave", [animate("200ms ease-in", style({ opacity: 0, transform: "translate(-50%, -60%)" }))]),
-    ]),
   ],
 })
 export class ProposalComponent {
@@ -228,10 +305,14 @@ export class ProposalComponent {
   showQuestion = false
   showPopup = false
   showCountdown = false
+  showConfetti = false
   countdown = 5
   countdownInterval: any = null
 
-  constructor(private stateService: StateService) {}
+  constructor(
+    private stateService: StateService,
+    private audioService: AudioService,
+  ) {}
 
   onTypingComplete() {
     setTimeout(() => {
@@ -240,8 +321,18 @@ export class ProposalComponent {
   }
 
   onYesClick() {
-    this.stateService.saveResponse(true)
-    this.stateService.nextScreen()
+    // Mostrar confeti antes de cambiar de pantalla
+    this.showConfetti = true
+    this.createConfetti()
+
+    // Reproducir sonido de celebración
+    this.audioService.playCelebrationSound()
+
+    // Guardar respuesta y cambiar pantalla después de un breve retraso
+    setTimeout(() => {
+      this.stateService.saveResponse(true)
+      this.stateService.nextScreen()
+    }, 1500)
   }
 
   onNoClick() {
@@ -268,6 +359,62 @@ export class ProposalComponent {
           '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial; font-size: 24px;">La aplicación se ha cerrado. Puedes cerrar esta pestaña.</div>'
       }
     }, 1000)
+  }
+
+  createConfetti() {
+    const confettiContainer = document.querySelector(".confetti-container")
+    if (!confettiContainer) return
+
+    const colors = [
+      "#e76f51",
+      "#f4a261",
+      "#e9c46a",
+      "#2a9d8f",
+      "#264653",
+      "#ff0000",
+      "#ff00ff",
+      "#ffff00",
+      "#00ff00",
+      "#00ffff",
+    ]
+    const confettiElements = confettiContainer.querySelectorAll(".confetti")
+
+    confettiElements.forEach((confetti: Element, index) => {
+      const div = confetti as HTMLDivElement
+      const color = colors[Math.floor(Math.random() * colors.length)]
+      const size = Math.random() * 10 + 5
+      const left = Math.random() * 100
+      const animationDuration = Math.random() * 3 + 2
+      const animationDelay = Math.random() * 2
+      const shape = Math.random() > 0.5 ? "50%" : "0%"
+
+      div.style.backgroundColor = color
+      div.style.width = `${size}px`
+      div.style.height = `${size}px`
+      div.style.left = `${left}%`
+      div.style.borderRadius = shape
+      div.style.animation = `confettiDrop ${animationDuration}s ease-in infinite`
+      div.style.animationDelay = `${animationDelay}s`
+      div.style.transform = `rotate(${Math.random() * 360}deg)`
+    })
+
+    // Añadir keyframes para la animación de confeti
+    const style = document.createElement("style")
+    style.innerHTML = `
+      @keyframes confettiDrop {
+        0% {
+          top: -10px;
+          opacity: 1;
+          transform: translateX(0) rotate(0deg);
+        }
+        100% {
+          top: 100vh;
+          opacity: 0.3;
+          transform: translateX(${Math.random() * 200 - 100}px) rotate(${Math.random() * 360}deg);
+        }
+      }
+    `
+    document.head.appendChild(style)
   }
 
   ngOnDestroy() {

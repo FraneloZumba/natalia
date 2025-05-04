@@ -90,25 +90,37 @@ import { trigger, transition, style, animate } from "@angular/animations"
   ],
 })
 export class PoemComponent {
-  poemText = `En cada grano de café que compartimos,
-Encuentro el sabor de nuestras coincidencias.
-En cada sorbo, un secreto descubrimos,
-Que nuestras almas comparten esencias.
+  poemText = `¿Sabes por qué duermo
+con tus ojos café clavados
+en la pupila de mis sueños?
 
-Como dos tazas que se llenan del mismo sentir,
-Nuestros gustos se entrelazan en perfecta armonía.
-Tu sonrisa es el azúcar que endulza mi existir,
-Y tu mirada, la calidez que ilumina mi día.
+Porque tu voz es un eco
+que desordena mi pecho,
+es una canción que me enseña
+a latir sin miedo.
 
-No es casualidad que nuestros caminos se cruzaran,
-Es el destino que nos tejió con hilos invisibles.
-Como si las estrellas nuestro encuentro planearan,
-Para hacer de lo imposible, posible.
+¿Cómo no perderme
+en tu risa de atardecer,
+si cada risa tuya
+es un faro que alumbra mi vida?
 
-Te amo como el café ama la mañana,
-Con devoción, con calma, con anhelo.
-Eres mi presente y mi mañana,
-Mi tierra firme y mi cielo.`
+Te amo en mil trozos:
+en la curva de tus pestañas,
+en el color de tu ojos,
+en el temblor de mi voz
+cuando pronuncio tu nombre.
+
+Y aunque no tenga una máquina
+ni poderes de corrección,
+querría retroceder al instante
+justo antes de conocerte,
+para atraparte otra vez
+y decirte sin temblar:
+
+Eres todo lo que me falta,
+eres mi verso inacabado,
+mi remanso de calma,
+mi inevitable querer. ❤️`
 
   showButton = false
 

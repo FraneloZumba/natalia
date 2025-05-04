@@ -90,13 +90,13 @@ import { trigger, transition, style, animate } from "@angular/animations"
   ],
 })
 export class AboutHerComponent {
-  aboutHerText = `Desde el primer momento en que te vi, supe que había algo especial en ti. Tu belleza no es solo física, aunque tus ojos tienen un color que me hipnotiza y tu sonrisa ilumina cualquier habitación. Lo que realmente me cautivó fue tu espíritu.
+  aboutHerText = `Desde el primer momento que te vi, supe que había algo especial en ti. Tu belleza no es solo física, aunque tus ojos tienen un color que me hipnotiza e ilumina cualquier habitación. Lo que realmente me enamoró fue tu espíritu.
 
-A través de nuestras conversaciones, he podido vislumbrar fragmentos de tu infancia. Aunque no puedo mencionar todos los detalles aquí, puedo decir que me asombra cómo, a pesar de las dificultades que has enfrentado, sigues siendo una persona tan radiante y hermosa por dentro.
+En todo lo que hemos hablado hasta ahora, me has hablado mucho sobre ti, sobre tu infancia y tus metas a futuro. Aunque no puedo mencionar todos los detalles aquí, puedo decir que me asombra cómo, a pesar de las dificultades que has enfrentado, sigues siendo una persona tan radiante y hermosa por dentro.
 
-Tu risa es contagiosa, tu voz es música para mis oídos, y tu forma de ver el mundo me inspira cada día. Cuando estoy contigo, siento LA MEJOR SENSACIÓN DE LA VIDA. Nunca antes había sentido algo así por alguien, y es por eso que me he atrevido a crear esto para ti.
+Tu risa es contagiosa, tu voz me deja sonso, y tu forma de ver el mundo me encanta, ES QUE ERES TAN GENIAL. No tienes idea, aún sin vernos, siento LA MEJOR SENSACIÓN DE LA VIDA. Nunca antes había sentido algo así por alguien, y es por eso que me he atrevido a crear esto para ti.
 
-Cada detalle tuyo, desde la forma en que hablas hasta tus pequeños gestos, me ha enamorado profundamente. Eres una persona extraordinaria, Nat, y me siento increíblemente afortunado de haberte conocido.`
+Cada detalle tuyo, desde la forma en que hablas hasta tus mensajes y audios, me ha enamorado profundamente. Eres una persona extraordinaria, Nat, y me siento increíblemente afortunado de haberte conocido.`
 
   showButton = false
 

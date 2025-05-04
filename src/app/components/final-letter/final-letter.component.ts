@@ -10,7 +10,7 @@ import { AudioService } from "../../services/audio.service"
   template: `
     <div class="final-letter-container">
       <div class="final-letter-content">
-        <h2 class="final-letter-title">Carta Final</h2>
+        <h2 class="final-letter-title">SIIII DIJISTE QUE SÍ</h2>
         <div class="final-letter-text" appTypewriter [text]="finalLetterText" [onComplete]="onTypingComplete.bind(this)"></div>
       </div>
       
@@ -45,7 +45,7 @@ import { AudioService } from "../../services/audio.service"
       <div class="close-popup" *ngIf="showClosePopup">
         <div class="popup-content">
           <h3>Ahora ya sabes qué hacer</h3>
-          <p>¡Búscame y dame un abrazo!</p>
+          <p>Ven y bésame xfavor</p>
           <button class="final-button" (click)="finalClose()">Entendido</button>
         </div>
       </div>

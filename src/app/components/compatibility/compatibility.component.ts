@@ -153,7 +153,7 @@ Chart.register(...registerables)
     }
     
     .compatibility-table {
-      width: 100%;
+      width: 60%;
       margin-bottom: 30px;
       overflow-x: auto;
     }
@@ -170,7 +170,7 @@ Chart.register(...registerables)
     }
     
     table {
-      width: 100%;
+      width: 60%;
       border-collapse: collapse;
       font-family: 'Special Elite', cursive;
       min-width: 600px;
@@ -191,7 +191,7 @@ Chart.register(...registerables)
     }
     
     .zodiac-compatibility {
-      width: 100%;
+      width: 60%;
       margin-bottom: 30px;
       padding: 15px;
       background-color: #f8f4e3;

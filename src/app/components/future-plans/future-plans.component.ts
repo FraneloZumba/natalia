@@ -90,21 +90,21 @@ import { trigger, transition, style, animate } from "@angular/animations"
   ],
 })
 export class FuturePlansComponent {
-  futurePlansText = `Cuando pienso en el futuro, te veo a ti en cada imagen que viene a mi mente. Hay tantas cosas que quiero vivir contigo...
+  futurePlansText = `Hay tantas cosas que quiero vivir contigo...
 
-Imagino viajes alrededor del mundo, descubriendo juntos nuevos lugares, culturas y sabores. Desde las playas más hermosas hasta las ciudades más vibrantes, quiero crear recuerdos contigo en cada rincón del planeta.
+Imagínate unos viajes alrededor del mundo, descubriendo juntos nuevos lugares, culturas y sabores. Desde las playas más hermosas hasta las ciudades más tranquilas, quiero crear recuerdos contigo en cada rincón de este fucking planeta.
 
-Por supuesto, nuestros estudios son primordiales. Quiero que ambos alcancemos nuestras metas académicas y profesionales, apoyándonos mutuamente en cada paso del camino. Después, construir carreras exitosas que nos permitan tener la estabilidad que merecemos.
+Claro que nuestros estudios es lo primordial. Quiero que ambos alcancemos nuestras metas y sueños para llegar a ser profesionales, estando juntos en cada paso del camino. Después, construir carreras exitosas que nos permitan tener la estabilidad que merecemos.
 
-Sueño con el día en que podamos tener nuestro propio hogar, un espacio que refleje nuestra personalidad y amor. Y quizás, con el tiempo, formar una hermosa familia juntos.
+Imagínate tener nuestro propio hogar, un espacio que refleje nuestra personalidad y amor. Y quizás, con el tiempo, darte una pequeña mini tú o un mini yo.
 
-Y no puedo olvidar las pequeñas cosas: explorar nuevas cafeterías juntos (porque ambos amamos el café), compartir libros, música, películas de Marvel, y simplemente disfrutar de la compañía del otro en los momentos cotidianos que hacen que la vida sea especial.
+Pero antes de eso tenemos que hacer muchísimas cosas: explorar nuevas cafeterías juntos (porque ambos amamos el café), compartir libros, música, películas de Marvel, y simplemente disfrutar de la compañía del otro en los momentos cotidianos que hacen que la vida sea especial.
 
-Contigo, el futuro no es solo un plan, es una promesa de felicidad.`
+Contigo, el futuro no es solo un plan, es una promesa de felicidad a largo plazo que quiero para ambos.`
 
   showButton = false
 
-  constructor(private stateService: StateService) {}
+  constructor(private stateService: StateService) { }
 
   onTypingComplete() {
     setTimeout(() => {
